@@ -1,11 +1,42 @@
+const startScreen = document.getElementById('startScreen')
+const startButton = document.getElementById('startButton')
+const gameOverScreen = document.getElementById('gameOverScreen')
+const restartButton = document.getElementById('restartButton')
+const finalScore = document.getElementById('finalScore')
 const canvas = document.querySelector('canvas')
 const c = canvas.getContext('2d')
-
 const scoreEl = document.querySelector('#scoreEl')
 
 canvas.width = innerWidth
 canvas.height = innerHeight
 
+// function to start the game
+function startGame() {
+    // hide the initial page
+    startScreen.classList.add('hidden')
+    gameOverScreen.classList.add('hidden')
+
+    //restart score and refresh the game
+    score = 0
+    scoreEl.textContent = score
+
+    // start the game (exemple: clear the canvas and restart score)
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
+    scoreEl.textContent = 0
+}
+
+startButton.addEventListener('click', startGame)
+restartButton.addEventListener('click', () => {
+    location.reload()
+})
+
+function endGame() {
+    // Exibe a tela de "Fim de Jogo"
+    gameOverScreen.classList.remove('hidden');
+
+    // Atualiza o score final
+    finalScore.textContent = `Sua pontuação: ${score}`;
+}
 class Boundary {
     static width = 40
     static height = 40
@@ -510,7 +541,8 @@ function animate() {
             if (ghost.scared) {
                 ghosts.splice(i, 1)
             } else {
-                cancelAnimationFrame(animationId)
+                cancelAnimationFrame(animationId) // game over
+                endGame()
             }
         }
     }
