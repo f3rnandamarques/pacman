@@ -25,7 +25,13 @@ function startGame() {
     scoreEl.textContent = 0
 }
 
-startButton.addEventListener('click', startGame)
+startButton.addEventListener('click', () => {
+    startScreen.classList.add('hidden')
+    gameOverScreen.classList.add('hidden')
+    gameStarted = true
+    animate()
+})
+
 restartButton.addEventListener('click', () => {
     location.reload()
 })
@@ -444,8 +450,10 @@ function circleCollidesWithRectangle({ circle, rectangle }) {
         circle.position.x - circle.radius + circle.velocity.x <= rectangle.position.x + rectangle.width + padding)
 }
 
+let gameStarted = false
 let animationId
 function animate() {
+    if (!gameStarted) return
     animationId = requestAnimationFrame(animate)
     c.clearRect(0, 0, canvas.width, canvas.height)
 
