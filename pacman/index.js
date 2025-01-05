@@ -38,11 +38,37 @@ restartButton.addEventListener('click', () => {
 
 function endGame() {
     // Exibe a tela de "Fim de Jogo"
-    gameOverScreen.classList.remove('hidden');
+    gameOverScreen.classList.remove('hidden')
 
     // Atualiza o score final
-    finalScore.textContent = `Sua pontuação: ${score}`;
+    finalScore.textContent = `Sua pontuação: ${score}`
 }
+
+let isPaused = false
+
+document.addEventListener('keydown', (event) => {
+    if (event.code === 'Space' || event.key.toLowerCase() === 'p') {
+        isPaused = !isPaused
+
+        if (!isPaused) {
+            animate()
+        }
+        if (isPaused) {
+            drawPauseScreen()
+        }
+    }
+})
+
+function drawPauseScreen() {
+    c.fillStyle = 'rgba(0, 0, 0, 0.5)'
+    c.fillRect(0, 0, canvas.width, canvas.height)
+
+    c.fillStyle = 'white'
+    c.font = '30px Arial'
+    c.textAlign = 'center'
+    c.fillText('Jogo pausado', canvas.width / 2, canvas.height / 2)
+}
+
 class Boundary {
     static width = 40
     static height = 40
@@ -454,6 +480,7 @@ let gameStarted = false
 let animationId
 function animate() {
     if (!gameStarted) return
+    if (isPaused) return
     animationId = requestAnimationFrame(animate)
     c.clearRect(0, 0, canvas.width, canvas.height)
 
